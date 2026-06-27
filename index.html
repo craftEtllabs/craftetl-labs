@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craft ETL Labs — Batch 01</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b1628;
+      color: #F8F5EE;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+    .brochure {
+      background: #0F1B38;
+      width: 100%;
+      max-width: 720px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* HERO */
+    .hero { padding: 56px 48px 44px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .hero-eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #00C2A8; margin-bottom: 14px; }
+    .hero-logo { font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; color: #F8F5EE; line-height: 1.1; margin-bottom: 6px; }
+    .hero-logo span { color: #00C2A8; }
+    .hero-tagline { font-size: 14px; color: rgba(248,245,238,0.45); font-style: italic; margin-bottom: 30px; }
+    .hero-headline { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600; line-height: 1.35; max-width: 500px; margin-bottom: 14px; }
+    .hero-sub { font-size: 15px; color: rgba(248,245,238,0.65); max-width: 500px; line-height: 1.75; margin-bottom: 32px; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 36px; }
+    .hero-cta { display: inline-block; background: #00C2A8; color: #0F1B38; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; padding: 13px 26px; border-radius: 6px; text-decoration: none; }
+    .hero-badge { display: inline-block; background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.4); color: #F5A623; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; }
+    .hero-stats { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 32px; }
+    .hero-stat { flex: 1; text-align: center; padding: 0 12px; border-right: 1px solid rgba(255,255,255,0.08); }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: #00C2A8; }
+    .hero-stat-label { font-size: 11px; color: rgba(248,245,238,0.45); margin-top: 4px; }
+
+    /* SECTIONS */
+    .section { padding: 44px 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #00C2A8; margin-bottom: 16px; font-weight: 500; }
+    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 600; margin-bottom: 24px; line-height: 1.3; }
+
+    /* CURRICULUM */
+    .curriculum-track { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+    .track-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .track-icon { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .track-icon.teal { background: rgba(0,194,168,0.15); }
+    .track-icon.gold { background: rgba(245,166,35,0.15); }
+    .track-icon.blue { background: rgba(99,179,237,0.15); }
+    .track-icon.purple { background: rgba(150,100,220,0.15); }
+    .track-name { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; }
+    .track-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { font-size: 12px; padding: 4px 11px; border-radius: 20px; background: rgba(255,255,255,0.06); color: rgba(248,245,238,0.65); border: 1px solid rgba(255,255,255,0.09); }
+
+    /* WHY */
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .why-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; }
+    .why-icon { font-size: 20px; margin-bottom: 10px; display: block; }
+    .why-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .why-desc { font-size: 13px; color: rgba(248,245,238,0.55); line-height: 1.65; }
+
+    /* DISCLAIMER */
+    .disclaimer-card {
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 10px;
+      padding: 22px 26px;
+      margin-top: 8px;
+    }
+    .disclaimer-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .disclaimer-icon { font-size: 16px; }
+    .disclaimer-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: #F5A623; }
+    .disclaimer-text { font-size: 13px; color: rgba(248,245,238,0.6); line-height: 1.75; }
+
+    /* MENTOR */
+    .mentor-card { display: flex; gap: 24px; background: rgba(0,194,168,0.06); border: 1px solid rgba(0,194,168,0.2); border-radius: 12px; padding: 26px; align-items: flex-start; }
+    .mentor-avatar { width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(135deg, #00C2A8, #0F4C75); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #F8F5EE; }
+    .mentor-name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .mentor-role { font-size: 13px; color: #00C2A8; margin-bottom: 6px; }
+    .mentor-linkedin { font-size: 12px; margin-bottom: 12px; }
+    .mentor-linkedin a { color: #63B3ED; text-decoration: none; }
+    .mentor-linkedin a:hover { text-decoration: underline; }
+    .mentor-desc { font-size: 14px; color: rgba(248,245,238,0.65); line-height: 1.75; }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: rgba(0,194,168,0.3); }
+    .timeline-item { position: relative; margin-bottom: 24px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: #00C2A8; border: 2px solid #0F1B38; }
+    .timeline-week { font-size: 11px; color: #00C2A8; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+    .timeline-topic { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+    .timeline-detail { font-size: 13px; color: rgba(248,245,238,0.5); }
+
+    /* PRICING */
+    .pricing-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 32px; text-align: center; position: relative; overflow: hidden; }
+    .pricing-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00C2A8, #F5A623); }
+    .pricing-tag { font-size: 11px; letter-spacing: 2px; color: #F5A623; text-transform: uppercase; margin-bottom: 12px; }
+    .pricing-amount { font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; color: #F8F5EE; margin-bottom: 4px; }
+    .pricing-sub { font-size: 13px; color: rgba(248,245,238,0.45); margin-bottom: 28px; }
+    .pricing-features { text-align: left; margin-bottom: 28px; display: inline-block; width: 100%; max-width: 400px; }
+    .pricing-feature { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(248,245,238,0.7); margin-bottom: 12px; }
+    .check { width: 18px; height: 18px; border-radius: 50%; background: rgba(0,194,168,0.2); color: #00C2A8; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cta-row { display: flex; gap: 12px; max-width: 400px; margin: 0 auto; }
+    .pricing-cta { display: block; flex: 1; background: #25D366; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; padding: 14px 12px; border-radius: 8px; text-decoration: none; }
+    .pricing-cta-email { display: block; flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #F8F5EE; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; padding: 14px 12px; border-radius: 8px; text-decoration: none; }
+    .seats-warning { margin-top: 14px; font-size: 12px; color: #F5A623; text-align: center; }
+
+    /* FOOTER */
+    .footer { padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-brand { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; }
+    .footer-brand span { color: #00C2A8; }
+    .footer-batch { font-size: 12px; color: rgba(248,245,238,0.35); margin-top: 3px; }
+    .footer-links { display: flex; gap: 16px; align-items: center; }
+    .footer-links a { font-size: 13px; color: #63B3ED; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
+
+    @media (max-width: 560px) {
+      .hero, .section { padding: 36px 24px; }
+      .hero-logo { font-size: 28px; }
+      .hero-headline { font-size: 20px; }
+      .why-grid { grid-template-columns: 1fr; }
+      .mentor-card { flex-direction: column; }
+      .footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+      .cta-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="brochure">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Cohort · Batch 01 · 2025</div>
+    <div class="hero-logo">Craft <span>ETL</span> Labs</div>
+    <div class="hero-tagline">Your place in the data world starts here.</div>
+    <div class="hero-headline">Break into Data Engineering &amp; Analytics — with a mentor who's doing it right now.</div>
+    <div class="hero-sub">A structured, mentor-led program for freshers and career switchers. Learn the real tools companies actually use, with weekly one-on-one discussions and hands-on career support.</div>
+    <div class="hero-actions">
+      <a href="https://wa.me/919353749327?text=Hi%2C%20I%27m%20interested%20in%20Craft%20ETL%20Labs%20Batch%2001!" class="hero-cta">Reserve your seat →</a>
+      <span class="hero-badge">⚠ Only 10 seats</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">10</div>
+        <div class="hero-stat-label">Max students</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3+</div>
+        <div class="hero-stat-label">Yrs industry exp.</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1:1</div>
+        <div class="hero-stat-label">Weekly sessions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">Live</div>
+        <div class="hero-stat-label">Mentorship</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRICULUM -->
+  <div class="section">
+    <div class="section-label">Curriculum</div>
+    <div class="section-title">What you'll master</div>
+    <div class="curriculum-track">
+      <div class="track-header">
+        <div class="track-icon teal">🗄</div>
+        <div class="track-name">Core Data Engineering</div>
+      </div>
+      <div class="track-pills">
+        <span class="pill">Data Modelling</span>
+        <span class="pill">Spark Architecture</span>
+        <span class="pill">ETL Pipelines</span>
+        <span class="pill">Batch vs Streaming</span>
+      </div>
+    </div>
+    <div class="curriculum-track">
+      <div class="track-header">
+        <div class="track-icon gold">📊</div>
+        <div class="track-name">SQL — Beginner to Advanced</div>
+      </div>
+      <div class="track-pills">
+        <span class="pill">Foundations &amp; JOINs</span>
+        <span class="pill">Window Functions</span>
+        <span class="pill">CTEs &amp; Subqueries</span>
+        <span class="pill">Query Optimisation</span>
+        <span class="pill">Analytical Queries</span>
+      </div>
+    </div>
+    <div class="curriculum-track">
+      <div class="track-header">
+        <div class="track-icon blue">🐍</div>
+        <div class="track-name">Python for Data</div>
+      </div>
+      <div class="track-pills">
+        <span class="pill">Core Python logic</span>
+        <span class="pill">Pandas</span>
+        <span class="pill">Data wrangling</span>
+        <span class="pill">Transformations for DE</span>
+      </div>
+    </div>
+    <div class="curriculum-track">
+      <div class="track-header">
+        <div class="track-icon purple">💼</div>
+        <div class="track-name">Career &amp; Job Readiness</div>
+      </div>
+      <div class="track-pills">
+        <span class="pill">Resume building</span>
+        <span class="pill">LinkedIn optimisation</span>
+        <span class="pill">Job portal strategies</span>
+        <span class="pill">Application techniques</span>
+        <span class="pill">Soft skills for interviews</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div class="section">
+    <div class="section-label">Why this program</div>
+    <div class="section-title">What makes Craft ETL Labs different</div>
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="why-icon">🎯</span>
+        <div class="why-title">Strictly 10 students</div>
+        <div class="why-desc">Every student gets real mentor time, personalised feedback, and dedicated attention throughout the program.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🗣</span>
+        <div class="why-title">Weekly one-on-one discussions</div>
+        <div class="why-desc">Practice real interview loops every week. Build the confidence to crack technical rounds.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">📝</span>
+        <div class="why-title">Offline assessments</div>
+        <div class="why-desc">Weekly graded assignments that track progress and reinforce practical skills.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🚀</span>
+        <div class="why-title">Resume &amp; job support</div>
+        <div class="why-desc">We help you craft a strong resume and guide you through applying smartly across job portals.</div>
+      </div>
+    </div>
+
+    <!-- PLACEMENT DISCLAIMER -->
+    <div class="disclaimer-card">
+      <div class="disclaimer-header">
+        <span class="disclaimer-icon">⚠️</span>
+        <span class="disclaimer-title">A note on placements</span>
+      </div>
+      <div class="disclaimer-text">
+        This is not a placement-assisted course, and we do not guarantee jobs or placements. However, students who consistently perform well in assignments, assessments, and mock interviews may receive resume referrals and networking support for relevant opportunities. If we find your skills and readiness to be a strong fit, we'll be happy to help by sharing your resume with hiring companies in our network.
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTOR -->
+  <div class="section">
+    <div class="section-label">Your mentor</div>
+    <div class="section-title">Learn from someone doing it right now</div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">R</div>
+      <div>
+        <div class="mentor-name">Mentor</div>
+        <div class="mentor-role">Data Engineer · 3 years industry experience</div>
+        <div class="mentor-linkedin">🔗 <a href="https://www.linkedin.com/feed/" target="_blank">Connect on LinkedIn</a></div>
+        <div class="mentor-desc">A practicing Data Engineer working in the modern data stack. Having navigated the hiring landscape first-hand, this program is built around what companies are actually looking for — not what textbooks teach. You'll learn real tools, real architectural patterns, and how to talk about them in interviews.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="section-label">Program structure</div>
+    <div class="section-title">A sample learning journey</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-week">Weeks 1–2</div>
+        <div class="timeline-topic">SQL Foundations</div>
+        <div class="timeline-detail">Tables, SELECT, JOINs, filtering, grouping — zero assumed knowledge</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Weeks 3–4</div>
+        <div class="timeline-topic">Python &amp; Data Libraries</div>
+        <div class="timeline-detail">Core Python logic, Pandas, data wrangling and DE transformations</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Weeks 5–6</div>
+        <div class="timeline-topic">Data Engineering Concepts</div>
+        <div class="timeline-detail">Pipelines, ETL, data modelling, batch vs streaming patterns</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Weeks 7–8</div>
+        <div class="timeline-topic">Spark &amp; Advanced SQL</div>
+        <div class="timeline-detail">Spark architecture, window functions, query optimisation, analytics</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-week">Ongoing</div>
+        <div class="timeline-topic">Career Readiness — Resume, Jobs &amp; One-on-Ones</div>
+        <div class="timeline-detail">Resume crafting, job portal strategies, weekly one-on-one mock sessions and feedback</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section">
+    <div class="section-label">Investment</div>
+    <div class="section-title">Affordable, intentional, accessible</div>
+    <div class="pricing-card">
+      <div class="pricing-bar"></div>
+      <div class="pricing-tag">Batch 01 · Special pricing</div>
+      <div class="pricing-amount">DM for fees</div>
+      <div class="pricing-sub">Highly affordable · Flexible payment discussed personally</div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><span class="check">✓</span> Full curriculum — SQL, Python, DE</div>
+        <div class="pricing-feature"><span class="check">✓</span> Weekly live sessions</div>
+        <div class="pricing-feature"><span class="check">✓</span> Weekly offline assessments + feedback</div>
+        <div class="pricing-feature"><span class="check">✓</span> Weekly one-on-one discussions</div>
+        <div class="pricing-feature"><span class="check">✓</span> Resume building &amp; job application guidance</div>
+        <div class="pricing-feature"><span class="check">✓</span> Resume referral for top performers</div>
+        <div class="pricing-feature"><span class="check">✓</span> Personalised career guidance</div>
+      </div>
+      <div class="cta-row">
+        <a href="https://wa.me/919353749327?text=Hi%2C%20I%27m%20interested%20in%20Craft%20ETL%20Labs%20Batch%2001!" class="pricing-cta">💬 WhatsApp us →</a>
+        <a href="mailto:craftetllabs@gmail.com?subject=Interested%20in%20Craft%20ETL%20Labs%20Batch%2001" class="pricing-cta-email">✉ Email us →</a>
+      </div>
+      <div class="seats-warning">⚠ Only 10 seats available — batch fills fast</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">Craft <span>ETL</span> Labs</div>
+      <div class="footer-batch">Batch 01 · 2025</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/feed/" target="_blank">LinkedIn →</a>
+      <a href="https://wa.me/919353749327?text=Hi%2C%20I%27m%20interested%20in%20Craft%20ETL%20Labs%20Batch%2001!" target="_blank">WhatsApp →</a>
+      <a href="mailto:craftetllabs@gmail.com?subject=Interested%20in%20Craft%20ETL%20Labs%20Batch%2001">Email →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
