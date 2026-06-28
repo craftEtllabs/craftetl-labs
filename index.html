@@ -167,6 +167,11 @@
       .mentor-card{flex-direction:column;}
       .pricing{flex-direction:column;}
       .p-right{width:100%;}
+      .stats{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+      .stat{border-right:none;border-bottom:1px solid var(--border);margin:0;padding:16px 0;}
+      .stat:nth-child(odd){border-right:1px solid var(--border);padding-right:16px;}
+      .stat:nth-child(even){padding-left:16px;}
+      .stat:nth-last-child(-n+2){border-bottom:none;}
     }
   </style>
 </head>
