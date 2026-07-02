@@ -71,7 +71,7 @@
     .eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
 
     /* TWO COL */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+    .two-col { display: flex; flex-direction: column; gap: 28px; }
 
     /* MENTOR */
     .mentor-card { background: var(--teal-dim); border: 1px solid rgba(0,194,168,0.2); border-radius: 8px; padding: 22px; display: flex; gap: 16px; }
@@ -137,10 +137,10 @@
     .faq-item.open .faq-q { background: var(--teal-dim); color: var(--teal); }
 
     /* PRICING */
-    .pricing { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 30px 32px; display: flex; gap: 36px; align-items: flex-start; }
+    .pricing { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 30px 32px; display: flex; gap: 20px; align-items: center; justify-content: space-between; }
     .p-left { flex: 1; }
     .p-tag { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-    .p-amt { font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; color: var(--cream); line-height: 1; margin-bottom: 4px; }
+    .p-amt { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: var(--cream); line-height: 1; margin-bottom: 4px; }
     .p-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
     .p-features { display: flex; flex-direction: column; gap: 9px; }
     .p-feat { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
@@ -150,6 +150,14 @@
     .c-wa { background: #25D366; color: #fff; }
     .c-em { background: var(--card); border: 1px solid var(--border); color: var(--cream); }
     .seats { font-size: 11px; color: var(--gold); text-align: center; padding: 8px; background: var(--gold-dim); border: 1px solid rgba(245,166,35,0.2); border-radius: 4px; }
+
+
+    .why-us-block { background: var(--navy2); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 8px; padding: 28px 32px; }
+    .why-us-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+    .why-us-sub { font-size: 14px; color: var(--teal); font-weight: 600; margin-bottom: 12px; }
+    .why-us-body { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 14px; }
+    .why-us-footer { font-size: 14px; color: var(--muted); font-style: italic; }
+    .why-us-footer span { color: var(--teal); font-weight: 600; font-style: normal; }
 
     /* FOOTER */
     .footer { background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -260,10 +268,7 @@
         <div class="why-card"><span class="why-icon">🏗</span><div class="why-t">Real project</div><div class="why-d">Build something you can show in interviews.</div></div>
         <div class="why-card"><span class="why-icon">🚀</span><div class="why-t">Job support</div><div class="why-d">Resume help and job portal guidance included.</div></div>
       </div>
-      <div class="disclaimer">
-        <div class="disclaimer-t">⚠ On placements</div>
-        <div class="disclaimer-d">Not placement-assisted. Top performers may receive resume referrals to companies in our network based on performance.</div>
-      </div>
+      
     </div>
     <div>
       <div class="eyebrow">Program timeline</div>
@@ -284,13 +289,24 @@
     </div>
   </div>
 
+
+  <hr class="divider" />
+
+  <div class="eyebrow">Why us</div>
+  <div class="why-us-block">
+    <div class="why-us-title">Why us over free online courses?</div>
+    <div class="why-us-sub">Free courses give you videos. We give you a mentor.</div>
+    <div class="why-us-body">At Craft ETL Labs you get live classes, personal doubt clearing, resume building, and job application guidance — and if you perform well in mock interviews, we'll refer your resume to real companies.</div>
+    <div class="why-us-footer">Anyone can watch tutorials. <span>We help you get hired.</span></div>
+  </div>
+
   <hr class="divider" />
 
   <div class="pricing">
     <div class="p-left">
       <div class="p-tag">Batch 01 · Limited Offer</div>
       <div class="p-amt">Highly Affordable</div>
-      <div class="p-sub">DM us to know more</div>
+      <div class="p-sub">DM us to know the fee</div>
       <div class="p-features">
         <div class="p-feat"><span class="chk">✓</span> Full curriculum — SQL, Python, DE</div>
         <div class="p-feat"><span class="chk">✓</span> Weekly live sessions + offline classes</div>
